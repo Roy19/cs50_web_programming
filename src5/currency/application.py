@@ -1,9 +1,9 @@
 import requests
-
+import os
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
-
+apikey = os.getenv("API_KEY")
 
 @app.route("/")
 def index():
@@ -15,8 +15,8 @@ def convert():
 
     # Query for currency exchange rate
     currency = request.form.get("currency")
-    res = requests.get("https://api.fixer.io/latest", params={
-        "base": "USD", "symbols": currency})
+    res = requests.get("http://data.fixer.io/api/latest", params={
+        "access_key" : apikey, "symbols": currency})
 
     # Make sure request succeeded
     if res.status_code != 200:
